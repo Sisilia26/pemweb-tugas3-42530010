@@ -1,0 +1,44 @@
+<%- include('../partials/header', { pageTitle: pageTitle }) %>
+
+<div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2>Master Data Produk</h2>
+        <a href="/produk/tambah" style="padding: 0.5rem 1rem; text-decoration: none; background: #0284c7; color: white; border-radius: 4px;">+ Tambah Produk Baru</a>
+    </div>
+
+    <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead style="background: #f8fafc;">
+            <tr>
+                <th>ID</th>
+                <th>Nama Produk</th>
+                <th>Kategori</th>
+                <th>Harga (Rp)</th>
+                <th>Stok</th>
+                <th>Aksi</th> <!-- Kolom Aksi -->
+            </tr>
+        </thead>
+        <tbody>
+            <% if (produkList.length === 0) { %>
+                <tr><td colspan="6" style="text-align: center;">Belum ada data produk di basis data.</td></tr>
+            <% } else { %>
+                <% produkList.forEach(item => { %>
+                    <tr>
+                        <td><%= item.id %></td>
+                        <td><strong><%= item.nama_produk %></strong></td>
+                        <td><%= item.kategori %></td>
+                        <td><%= Number(item.harga).toLocaleString('id-ID') %></td>
+                        <td><%= item.stok %> Unit</td>
+                        <td>
+                            <a href="/produk/edit/<%= item.id %>" style="padding: 0.25rem 0.5rem; background: #eab308; color: white; text-decoration: none; border-radius: 3px; font-size: 0.875rem; margin-right: 4px;">Edit</a>
+                            <form action="/produk/hapus/<%= item.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus produk ini?');">
+                                <button type="submit" style="padding: 0.25rem 0.5rem; background: #ef4444; color: white; border: none; border-radius: 3px; font-size: 0.875rem; cursor: pointer;">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/footer') %>
